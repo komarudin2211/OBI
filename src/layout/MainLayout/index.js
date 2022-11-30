@@ -1,6 +1,6 @@
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { Outlet } from 'react-router-dom';
+import { Navigate, Outlet } from 'react-router-dom';
 
 // material-ui
 import { styled, useTheme } from '@mui/material/styles';
@@ -79,6 +79,12 @@ const MainLayout = () => {
         dispatch({ type: SET_MENU, opened: !matchDownMd });
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [matchDownMd]);
+
+    let user = localStorage.getItem('login');
+
+    if (!user) {
+        return <Navigate to="/login" />;
+    }
 
     return (
         <Box sx={{ display: 'flex' }}>

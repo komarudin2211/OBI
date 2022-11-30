@@ -57,8 +57,13 @@ const FirebaseLogin = ({ ...others }) => {
         event.preventDefault();
     };
 
+    const onSubmit = () => {
+        localStorage.setItem('login', true);
+        window.location.href = '/';
+    };
+
     return (
-        <>
+        <>BINUS
             <Grid container direction="column" justifyContent="center" spacing={2}>
                 <Grid item xs={12}>
                     <AnimateButton>
@@ -225,6 +230,7 @@ const FirebaseLogin = ({ ...others }) => {
                         <Box sx={{ mt: 2 }}>
                             <AnimateButton>
                                 <Button
+                                    onClick={onSubmit}
                                     disableElevation
                                     disabled={isSubmitting}
                                     fullWidth

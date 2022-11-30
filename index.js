@@ -1,0 +1,14 @@
+const express = require('express');
+const mssql = require('mssql');
+const app = express();
+const path = require('path');
+const port = process.env.PORT || 3500;
+
+app.use(express.static(path.resolve(__dirname, './build')));
+
+app.get('*', function(req, res) {
+    res.sendFile(path.join(__dirname, 'build', 'index.html'));
+});
+
+app.listen(port);
+module.exports = app
