@@ -1,8 +1,6 @@
 var sql = require("mssql");
 require('dotenv').config();
 
-console.log("precss .env", process.env.DB_HOST)
-
 let data =[];
 let init = async () => {
     var config = {
