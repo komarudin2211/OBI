@@ -63,7 +63,7 @@ const FirebaseLogin = ({ ...others }) => {
     };
 
     return (
-        <>BINUS
+        <>
             <Grid container direction="column" justifyContent="center" spacing={2}>
                 <Grid item xs={12}>
                     <AnimateButton>
