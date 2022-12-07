@@ -7,6 +7,7 @@ let init = async () => {
         user: process.env.DB_USERNAME,
         password: process.env.DB_PASSWORD,
         server: process.env.DB_HOST,
+        port:parseInt(process.env.PORT),
         database:process.env.DB_NAME,
         trustServerCertificate: true
     };
@@ -27,6 +28,11 @@ let init = async () => {
         console.log("koneksi database gagal");
         console.log(config);
         console.log("========================");
+        
+        console.log("**************************");
+        console.log("error response : ", err.message)
+        console.log("**************************");
+
     }
 }
 
