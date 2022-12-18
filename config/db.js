@@ -1,58 +1,69 @@
-var sql = require("mssql");
+
 require('dotenv').config();
 
 let data =[];
+
 let init = async () => {
-    var config = {
-        user: process.env.DB_USERNAME,
-        password: process.env.DB_PASSWORD,
-        server: process.env.DB_HOST,
-        port:parseInt(process.env.PORT),
-        database:process.env.DB_NAME,
-        trustServerCertificate: true,
-        options:{
-            cryptoCredentialsDetails:{
-                minVersion: 'TLSv1'
+    if(process.env.OS == 'WINDOWS'){
+        const sql = require("msnodesqlv8");
+
+        const pool = new sql.Pool({
+            connectionString: 'server=WIN-1G5BO4FRUM4;Database=OBI_LIVE;Trusted_Connection=Yes;Driver={SQL Server Native Client 11.0}'
+        })
+
+        pool.on('open', (options) => {
+            console.log(`ready options = ${JSON.stringify(options, null, 4)}`)
+        })
+
+        pool.on('debug', msg => {
+            console.log(`\t\t\t\t\t\t${new Date().toLocaleTimeString()} <pool.debug> ${msg}`)
+        })
+
+        pool.on('status', s => {
+            console.log(`status = ${JSON.stringify(s, null, 4)}`)
+        })
+
+        pool.on('error', e => {
+            console.log(e)
+        })
+
+       // const connectionString = "server=WIN-1G5BO4FRUM4;Database=OBI_LIVE;Trusted_Connection=Yes;Driver={SQL Server Native Client 11.0}";
+    }else{
+        var config = {
+            user: process.env.DB_USERNAME,
+            password: process.env.DB_PASSWORD,
+            server: process.env.DB_HOST,
+            port:parseInt(process.env.PORT),
+            database:process.env.DB_NAME,
+            trustServerCertificate: true,
+            options:{
+                cryptoCredentialsDetails:{
+                    minVersion: 'TLSv1'
+                }
             }
+        };
+    
+        try {
+            var sql = require("mssql");
+           let connect = await sql.connect(config);
+            console.log("========================");
+            console.log("koneksi database suskes");
+            console.log("========================");
+    
+            return connect;
         }
-    };
-
-    try {
-       let connect = await sql.connect(config);
-     //  const result = await sql.query`select * from dbo.USR1`;
-    //    data = result.recordset;
-    //    console.log("Jumlah data : ", data.length)
-        console.log("========================");
-        console.log("koneksi database suskes");
-        console.log("========================");
-
-        return connect;
-    }
-    catch (err) {
-        console.log("========================");
-        console.log("koneksi database gagal");
-        console.log(config);
-        console.log("========================");
-
-        console.log("**************************");
-        console.log("error response : ", err.message)
-        console.log("**************************");
-
+        catch (err) {
+            console.log("========================");
+            console.log("koneksi database gagal");
+            console.log(config);
+            console.log("========================");
+    
+            console.log("**************************");
+            console.log("error response : ", err.message)
+            console.log("**************************");
+    
+        }
     }
 }
-
-let conn = Promise.all([init()]).then((res) => res
-
-    // let getUser = async () => {
-    //     for(let i=0; i < data.length; i++) {
-    //        let item = await new Promise(resolve => setTimeout(() => resolve(data[i]), 1000));
-    //        console.log("==============");
-    //        console.log(item);
-    //        console.log("======="+i+"======="+item.ClientName);
-    //     }
-    // };
-
-    // getUser();
-).catch((err) => err);
 
 module.exports = init;
