@@ -3,32 +3,43 @@ require('dotenv').config();
 
 let data =[];
 
-let init = async () => {
-    if(process.env.OS == 'WINDOWS'){
+let init = async (query) => {
+
+    if(process.env.OS_NODE == 'WINDOWS'){
         const sql = require("msnodesqlv8");
 
         const pool = new sql.Pool({
-            connectionString: 'server=WIN-1G5BO4FRUM4;Database=OBI_LIVE;Trusted_Connection=Yes;Driver={SQL Server Native Client 11.0}'
+            connectionString: process.env.STRING_CONNECT
         })
 
-        pool.on('open', (options) => {
-            console.log(`ready options = ${JSON.stringify(options, null, 4)}`)
-        })
+        // pool.on('open', (options) => {
+        //     console.log(`ready options = ${JSON.stringify(options, null, 4)}`)
+        // })
 
-        pool.on('debug', msg => {
-            console.log(`\t\t\t\t\t\t${new Date().toLocaleTimeString()} <pool.debug> ${msg}`)
-        })
+        // pool.on('debug', msg => {
+        //     console.log(`\t\t\t\t\t\t${new Date().toLocaleTimeString()} <pool.debug> ${msg}`)
+        // })
 
-        pool.on('status', s => {
-            console.log(`status = ${JSON.stringify(s, null, 4)}`)
-        })
+        // pool.on('status', s => {
+        //     console.log(`status = ${JSON.stringify(s, null, 4)}`)
+        // })
 
         pool.on('error', e => {
             console.log(e)
-        })
+        });
+
+        return new Promise((resolve, reject) => {
+            sql.query(process.env.STRING_CONNECT, query, (err, rows) => {
+                if(err) {
+                    return reject(err)
+                }
+
+                resolve(rows);
+            })
+        });
 
        // const connectionString = "server=WIN-1G5BO4FRUM4;Database=OBI_LIVE;Trusted_Connection=Yes;Driver={SQL Server Native Client 11.0}";
-    }else{
+    }else{console.log("else")
         var config = {
             user: process.env.DB_USERNAME,
             password: process.env.DB_PASSWORD,
