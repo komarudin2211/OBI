@@ -6,8 +6,8 @@ const model = require("./model");
 router.get('/wtq1/list', async (req, res) => {
     try{
         let data = await model.list();
-        console.log(data)
-        res.status(200).json(data);
+
+        res.status(200).json({total:data.length, data:data});
     }catch(err){
         res.status(500).json(err.message);
     }

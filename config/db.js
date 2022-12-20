@@ -39,7 +39,7 @@ let init = async (query) => {
         });
 
        // const connectionString = "server=WIN-1G5BO4FRUM4;Database=OBI_LIVE;Trusted_Connection=Yes;Driver={SQL Server Native Client 11.0}";
-    }else{console.log("else")
+    }else{
         var config = {
             user: process.env.DB_USERNAME,
             password: process.env.DB_PASSWORD,
@@ -56,12 +56,21 @@ let init = async (query) => {
     
         try {
             var sql = require("mssql");
-           let connect = await sql.connect(config);
+            await sql.connect(config);
             console.log("========================");
             console.log("koneksi database suskes");
             console.log("========================");
-    
-            return connect;
+
+            return new Promise((resolve, reject) => {
+                const request = new sql.Request();
+
+                request.query(query, (err, result) => {
+                    if(err){
+                        return reject(err);
+                    }
+                    resolve(result.recordset);
+                });
+            });
         }
         catch (err) {
             console.log("========================");

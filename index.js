@@ -5,20 +5,20 @@ const path = require('path');
 const port = process.env.PORT || 3500;
 const wtq1= require("./backend/wtq1")
 
-let db = require("./config/db");
+// let db = require("./config/db");
 
-const connect = async () => {
-    try{
-        let sql  = await db
+// const connect = async () => {
+//     try{
+//         let sql  = await db
      
-        const result = await sql(`select * from dbo.WTQ1;`);
-        console.log(result.length);
+//         const result = await sql(`select * from dbo.WTQ1;`);
+//         console.log(result.length);
        
-    }catch(err) {
-       console.log("err ", err);
-   }
-}
-connect();
+//     }catch(err) {
+//        console.log("err ", err);
+//    }
+// }
+// connect();
 
 // const sql = require("msnodesqlv8");
 
