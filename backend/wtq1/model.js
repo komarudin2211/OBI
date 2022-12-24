@@ -8,8 +8,35 @@ const WTQ1 = async () => {
             DocDate: {
                 type: Sequelize.DataTypes.STRING,
                 allowNull: false
-            }
-        }, {freezeTableName: true});
+            },
+            DocEntry:{
+                type: Sequelize.DataTypes.STRING,
+                allowNull: false
+            },
+            LineNum:{
+                type: Sequelize.DataTypes.STRING,
+                allowNull: false
+            },
+            Dscription:{
+                type: Sequelize.DataTypes.STRING,
+                allowNull: false
+            },
+            ItemCode:{
+                type: Sequelize.DataTypes.STRING,
+                allowNull: false
+            },
+            ShipDate:{
+                type: Sequelize.DataTypes.STRING,
+                allowNull: false
+            },
+        }, {
+            timestamps: false,
+            createdAt: false,
+            updatedAt: false,
+            freezeTableName: true
+        });
+
+        WTQ1.removeAttribute('id');
 
         return WTQ1;
 
