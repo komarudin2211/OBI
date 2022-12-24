@@ -50,9 +50,6 @@ const Index = () => {
                         pagination
                         data={wq1List}
                         columns={[{
-                            name: 'No',
-                            selector: (row, meta) => meta+1
-                        },{
                             name: 'Item Code',
                             selector: row => row.ItemCode,
                         }, {
@@ -73,84 +70,6 @@ const Index = () => {
                         }]}
                     /> : ""
                 }
-                {/* <TableContainer sx={{ maxHeight: 440 }}>
-                    <Table stickyHeader aria-label="sticky table">
-                        <TableHead>
-                            <TableRow>
-                                <TableCell>
-                                    <strong>No.</strong>
-                                </TableCell>
-                                <TableCell>
-                                    <strong>Item Code</strong>
-                                </TableCell>
-                                
-                                <TableCell>
-                                    <strong>Description</strong>
-                                </TableCell>
-
-                                <TableCell>
-                                    <strong>Qty</strong>
-                                </TableCell>
-                                <TableCell>
-                                    <strong>Uom Code</strong>
-                                </TableCell>
-                                <TableCell>
-                                    <strong>ShipDate</strong>
-                                </TableCell>
-                                <TableCell align="right">
-                                    <strong>Action</strong>
-                                </TableCell>
-                            </TableRow>
-                        </TableHead>
-                        <TableBody>
-                            {wq1List &&
-                                wq1List.map(
-                                    (item, index) => (
-                                            <TableRow hover role="checkbox" key="index">
-                                                <TableCell>{index + 1}</TableCell>
-                                                <TableCell>{item.ItemCode}</TableCell>
-                                                <TableCell>{item.Dscription}</TableCell>
-                                                <TableCell>{item.Qunatity}</TableCell>
-                                                <TableCell>{item.UomCode}</TableCell>
-                                                <TableCell>{item.ShipDate}</TableCell>
-                                                <TableCell align="right">
-                                                    <button type="button" title="View" className="btn btn-round btn-success btn-sm">
-                                                        <i className="feather icon-eye"></i>
-                                                    </button>
-                                                    <button
-                                                        type="button"
-                                                        title="Update"
-                                                        onClick={() => edit(item)}
-                                                        className="btn btn-round btn-warning btn-sm ml-1"
-                                                    >
-                                                        <i className="feather icon-upload"></i>
-                                                    </button>
-                                                    <button
-                                                        onClick={() => handleClickOpen(item)}
-                                                        type="button"
-                                                        title="Delete"
-                                                        className="btn btn-round btn-danger btn-sm ml-1"
-                                                    >
-                                                        <i className="feather icon-trash"></i>
-                                                    </button>
-                                                </TableCell>
-                                            </TableRow>
-                                    )
-                                )
-                            }
-                        </TableBody>
-                    </Table>
-                </TableContainer> */}
-                {/* <TablePagination
-                    rowsPerPageOptions={[10, 25, 100]}
-                    component="div"
-                    count={totalPage}
-                    rowsPerPage={rowsPerPage}
-                    page={page}
-                    onPageChange={handleChangePage}
-                    onRowsPerPageChange={handleChangeRowsPerPage}
-                    labelRowsPerPage="Jumlah per halaman"
-                /> */}
             </Paper>
         </MainCard>
     );
