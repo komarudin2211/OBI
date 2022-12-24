@@ -1,13 +1,20 @@
 const express = require('express');
 const router = express.Router();
-const model = require("./model");
+const WTQ1 = require("./model");
 
-// define the home page route
 router.get('/wtq1/list', async (req, res) => {
     try{
-        let data = await model.list();
+        
+        let Wtq1 = await WTQ1();
+       
+        let data = await Wtq1.findAll({
+            attributes: ['ItemCode', 'DocDate', 'Dscription', 'Quantity', 'UomCode', 'ShipDate']
+        });
+       
+        data.every(wtq1 => wtq1 instanceof Wtq1)
 
-        res.status(200).json({total:data.length, data:data});
+
+        return res.status(200).json({total:data.length, data:data});
     }catch(err){
         res.status(500).json(err.message);
     }

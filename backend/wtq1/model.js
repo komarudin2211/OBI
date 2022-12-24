@@ -1,15 +1,22 @@
-let db = require("../../config/db");
+const db = require("../../config/db");
+const Sequelize = require('sequelize');
 
-const list = async() => {
+const WTQ1 = async () => {
     try{
-        let sql  = await db;
-     
-        const result = await sql(`select DocDate, Quantity, ItemCode, Dscription, UomCode, ShipDate from dbo.WTQ1 ORDER BY DocDate DESC;`);
-        return result;
-    }catch(err){
-        return err.message;
-    }
-   
-}
 
-module.exports.list = list;
+        let WTQ1 = await db.define('WTQ1', {
+            DocDate: {
+                type: Sequelize.DataTypes.STRING,
+                allowNull: false
+            }
+        }, {freezeTableName: true});
+
+        return WTQ1;
+
+    }catch(err){
+        console.log(err.message);
+    }
+}
+    
+
+module.exports = WTQ1;

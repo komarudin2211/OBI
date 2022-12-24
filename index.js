@@ -5,7 +5,6 @@ const path = require('path');
 const port = process.env.PORT || 3500;
 const wtq1= require("./backend/wtq1")
 
-// let db = require("./config/db");
 
 // const connect = async () => {
 //     try{
