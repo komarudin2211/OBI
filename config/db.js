@@ -1,10 +1,11 @@
 
 require('dotenv').config();
 
-//if(process.env.OS_NODE == 'WINDOWS'){
-    const Sequelize = require('sequelize');
-    
-    const db = new Sequelize({
+const Sequelize = require('sequelize');
+let db = {};
+
+if(process.env.OS_NODE == 'WINDOWS'){
+    db = new Sequelize({
         dialect: 'mssql',
         dialectModulePath: 'msnodesqlv8/lib/sequelize',
         dialectOptions: {
@@ -24,41 +25,31 @@ require('dotenv').config();
             idle: 10000
         }
     });
+ }else{
+    db = new Sequelize(process.env.DB_NAME, process.env.DB_USERNAME, process.env.DB_PASSWORD, {
+        dialect: 'mssql',
+        host:  process.env.DB_HOST,
+        port: 1433,  // disable logging; default: console.log
+        dialectOptions: {
+            requestTimeout: 30000 // timeout = 30 seconds
+        }, pool: {
+            min: 0,
+            max: 5,
+            idle: 10000
+        }
+    });
+}
 
-    db.authenticate();
+async function connect() {
+    try {
+        await db.authenticate();
+        console.log("koneksi database berhasil")
+    }
+    catch(err){
+        console.log("koneksi database gagal : ",err.message)
+    }
+}
 
-// }else{
-//     var config = {
-//         user: process.env.DB_USERNAME,
-//         password: process.env.DB_PASSWORD,
-//         server: process.env.DB_HOST,
-//         port:parseInt(process.env.PORT),
-//         database:process.env.DB_NAME,
-//         trustServerCertificate: true,
-//         options:{
-//             cryptoCredentialsDetails:{
-//                 minVersion: 'TLSv1'
-//             }
-//         }
-//     };
-
-
-//     var sql = require("mssql");
-//     await sql.connect(config);
-//     console.log("========================");
-//     console.log("koneksi database suskes");
-//     console.log("========================");
-
-//     return new Promise((resolve, reject) => {
-//         const request = new sql.Request();
-
-//         request.query(query, (err, result) => {
-//             if(err){
-//                 return reject(err);
-//             }
-//             resolve(result.recordset);
-//         });
-//     });
-// }
+connect();
 
 module.exports = db
