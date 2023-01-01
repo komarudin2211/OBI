@@ -17,6 +17,8 @@ const UtilsTablerIcons = Loadable(lazy(() => import('views/utilities/TablerIcons
 // sample page routing
 const SamplePage = Loadable(lazy(() => import('views/sample-page')));
 const Wtq = Loadable(lazy(() => import('views/wtq')));
+const Obcd = Loadable(lazy(() => import('views/obcd')));
+const ObcdAdd = Loadable(lazy(() => import('views/obcd/add.js')));
 
 // ==============================|| MAIN ROUTING ||============================== //
 
@@ -40,6 +42,14 @@ const MainRoutes = {
         {
             path: 'wtq1',
             element: <Wtq />
+        }, 
+        {
+            path:'obcd-list',
+            element: <Obcd />
+        }, 
+        {
+            path:'obcd-add',
+            element: <ObcdAdd />
         }
         /*{
             path: 'utils',

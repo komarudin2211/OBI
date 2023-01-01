@@ -26,6 +26,7 @@ if(process.env.OS_NODE == 'WINDOWS'){
         }
     });
  }else{
+
     db = new Sequelize(process.env.DB_NAME, process.env.DB_USERNAME, process.env.DB_PASSWORD, {
         dialect: 'mssql',
         host:  process.env.DB_HOST,
@@ -42,11 +43,16 @@ if(process.env.OS_NODE == 'WINDOWS'){
 
 async function connect() {
     try {
+       
         await db.authenticate();
-        console.log("koneksi database berhasil")
+        console.log("=========================");
+        console.log("koneksi database berhasil");
+        console.log("=========================");
     }
     catch(err){
-        console.log("koneksi database gagal : ",err.message)
+        console.log("xxxxxxxxxxxxxxxxxxxxxxxxxx");
+        console.log("koneksi database gagal : ",err.message);
+        console.log("xxxxxxxxxxxxxxxxxxxxxxxxxx");
     }
 }
 
