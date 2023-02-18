@@ -37,6 +37,46 @@ const dashboard = {
             breadcrumbs: false,
             children:[]
         }]
+    }, {
+        title: 'Roles',
+        id:'roles',
+        type: 'collapse',
+        icon: icons.IconDashboard,
+        children:[{
+            id: 'rolesList',
+            title: 'List',
+            type: 'item',
+            url: '/roles-list',
+            breadcrumbs: false,
+            children:[]
+        }, {
+            id: 'rolesAdd',
+            title: 'ADD',
+            type: 'item',
+            url: '/roles-add',
+            breadcrumbs: false,
+            children:[]
+        }]
+    }, {
+        title: 'User',
+        id:'user',
+        type: 'collapse',
+        icon: icons.IconDashboard,
+        children:[{
+            id: 'userList',
+            title: 'List',
+            type: 'item',
+            url: '/user-list',
+            breadcrumbs: false,
+            children:[]
+        }, {
+            id: 'userAdd',
+            title: 'ADD',
+            type: 'item',
+            url: '/user-add',
+            breadcrumbs: false,
+            children:[]
+        }]
     }]
 };
 

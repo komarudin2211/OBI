@@ -20,6 +20,11 @@ const Wtq = Loadable(lazy(() => import('views/wtq')));
 const Obcd = Loadable(lazy(() => import('views/obcd')));
 const ObcdAdd = Loadable(lazy(() => import('views/obcd/add.js')));
 
+const Roles = Loadable(lazy(() => import('views/roles')));
+const RolesAdd = Loadable(lazy(() => import('views/roles/add.js')));
+
+const User = Loadable(lazy(() => import('views/user')));
+const UserAdd = Loadable(lazy(() => import('views/user/add.js')));
 // ==============================|| MAIN ROUTING ||============================== //
 
 const MainRoutes = {
@@ -50,6 +55,22 @@ const MainRoutes = {
         {
             path:'obcd-add',
             element: <ObcdAdd />
+        }, 
+        {
+            path:'roles-list',
+            element: <Roles />
+        }, 
+        {
+            path:'roles-add',
+            element: <RolesAdd />
+        }, 
+        {
+            path:'user-list',
+            element: <User />
+        }, 
+        {
+            path:'user-add',
+            element: <UserAdd />
         }
         /*{
             path: 'utils',

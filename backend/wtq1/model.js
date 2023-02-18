@@ -1,4 +1,4 @@
-const db = require("../../config/db");
+const db = require("../../config/mongo_db");
 const Sequelize = require('sequelize');
 
 const WTQ1 = async () => {

@@ -2,8 +2,10 @@ const express = require('express');
 const app = express();
 const path = require('path');
 const port = process.env.PORT || 3500;
-const wtq1= require("./backend/wtq1");
-const obcd= require("./backend/obcd")
+const wtq1 = require("./backend/wtq1");
+const obcd = require("./backend/obcd");
+const user = require("./backend/user");
+const roles = require("./backend/roles");
 var bodyParser = require('body-parser');
 
 // const connect = async () => {
@@ -24,7 +26,13 @@ var bodyParser = require('body-parser');
 // const connectionString = "server=WIN-1G5BO4FRUM4;Database=OBI_LIVE;Trusted_Connection=Yes;Driver={SQL Server Native Client 11.0}";
 // const query = "SELECT * from dbo.WTQ1";
 app.use(bodyParser.json());
-app.use("/api", wtq1, obcd);
+app.use(
+    "/api",  
+    obcd,
+    roles,
+    user,
+    wtq1,
+);
 
 app.use(express.static(path.resolve(__dirname, './build')));
 
