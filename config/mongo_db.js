@@ -7,12 +7,12 @@ async function main() {
   try{
     if(process.env.NODE_ENV == 'Production'){
       await mongoose.connect(process.env.DB_HOST);
-      var username = encodeURIComponent(process.env.DB_UNAME);
-      var password = encodeURIComponent(process.env.DB_PASSWD);
+      var username = encodeURIComponent(process.env.DB_USERNAME);
+      var password = encodeURIComponent(process.env.DB_PASSWORD);
 
       var connectionString = `mongodb://${username}:${password}@${process.env.DB_ENPOINT}:${process.env.DB_PORT}`;
 
-      var databaseConnection = await MongoClient.connect(connectionString, {
+      var databaseConnection = await mongoose.connect(connectionString, {
           ssl: true,
       });
     }
