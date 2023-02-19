@@ -1,8 +1,17 @@
+require('dotenv').config();
 const mongoose = require('mongoose');
 
 main().catch(err => console.log(err));
 
 async function main() {
-  await mongoose.connect('mongodb://127.0.0.1:27017/OBI');
-  // use `await mongoose.connect('mongodb://user:password@127.0.0.1:27017/test');` if your database has auth enabled
+  try{
+    var koneksi = await mongoose.connect('mongodb://'+process.env.DB_HOST+'/'+process.env.DB_NAME);
+    console.log("================");
+    console.log("koneksi berhasil");
+    console.log("================");
+    return "koneksi aman";
+  }catch(e){
+    console.log("e ", e);
+    return e.message;
+  }
 }
