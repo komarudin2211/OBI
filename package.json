@@ -24,7 +24,6 @@
         "jsbarcode": "^3.11.5",
         "material-ui-popup-state": "^4.0.1",
         "mongoose": "^6.9.1",
-        "msnodesqlv8": "^2.7.0",
         "mssql": "^9.0.1",
         "prop-types": "^15.8.1",
         "react": "^18.2.0",
@@ -39,7 +38,6 @@
         "react-scripts": "^5.0.1",
         "redux": "^4.2.0",
         "sequelize": "^6.28.0",
-        "sequelize-msnodesqlv8": "^0.2.6-beta.8",
         "styled-components": "^5.3.6",
         "yup": "^0.32.11"
     },
