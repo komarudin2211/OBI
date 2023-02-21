@@ -1,33 +1,20 @@
 const express = require('express');
 const app = express();
 const path = require('path');
+const cookieParser = require('cookie-parser');
 const port = process.env.PORT || 3500;
 const wtq1 = require("./backend/wtq1");
 const obcd = require("./backend/obcd");
 const user = require("./backend/user");
 const roles = require("./backend/roles");
 var bodyParser = require('body-parser');
+const { func } = require('prop-types');
 
-// const connect = async () => {
-//     try{
-//         let sql  = await db
-     
-//         const result = await sql(`select * from dbo.WTQ1;`);
-//         console.log(result.length);
-       
-//     }catch(err) {
-//        console.log("err ", err);
-//    }
-// }
-// connect();
-
-// const sql = require("msnodesqlv8");
-
-// const connectionString = "server=WIN-1G5BO4FRUM4;Database=OBI_LIVE;Trusted_Connection=Yes;Driver={SQL Server Native Client 11.0}";
-// const query = "SELECT * from dbo.WTQ1";
 app.use(bodyParser.json());
+app.use(cookieParser("asiap"));
+
 app.use(
-    "/api",  
+    "/api",
     obcd,
     roles,
     user,
@@ -37,7 +24,11 @@ app.use(
 app.use(express.static(path.resolve(__dirname, './build')));
 
 app.get('*', function(req, res) {
-    res.sendFile(path.join(__dirname, 'build', 'index.html'));
+    if(req.originalUrl != '/api/user/login' && !req.signedCookies.fullname && req.originalUrl != '/login'){
+           return res.redirect("/login");
+    }else {
+        res.sendFile(path.join(__dirname, 'build', 'index.html'));
+    }
 });
 
 app.listen(port);

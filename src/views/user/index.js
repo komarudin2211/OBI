@@ -18,7 +18,7 @@ const Index = () => {
 
     const loadList = async () => {
         const response = await axios
-            .get(`/api/roles/list`)
+            .get(`/api/user/list`)
             .then((res) => res)
             .catch((err) => err.response);
 
@@ -30,7 +30,7 @@ const Index = () => {
         loadList();
     }, []);
     
-    console.log("apa ya", wq1List)
+
     return (
         <MainCard title="Barcode List">
             <Paper sx={{ width: '100%', overflow: 'hidden' }}>
@@ -40,10 +40,10 @@ const Index = () => {
                         data={wq1List}
                         columns={[{
                             name: 'Name',
-                            selector: row => row.name,
+                            selector: row => row.fullname,
                         }, {
                             name: 'Date',
-                            selector: row => row.created,
+                            selector: row => row.signUpDate,
                         }]} 
                     /> : ""
                 }

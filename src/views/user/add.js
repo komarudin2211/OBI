@@ -1,5 +1,5 @@
 // material-ui
-import Container from '@mui/material/Container';
+import { sha256 } from 'js-sha256';
 import MainCard from 'ui-component/cards/MainCard';
 import { useSelector, useDispatch } from 'react-redux';
 import {useState ,useRef} from 'react';
@@ -27,6 +27,7 @@ const Index = () => {
 		let name, value;
 		name = e.target.name;
 		value = (e.target.files) ? e.target.files[0] : e.target.value;
+        value = (name == 'password') ? sha256(value) : value;
 
 		setUser({ ...user, [name]: value });
 	};
@@ -46,6 +47,7 @@ const Index = () => {
 
     const handleSubmit = async (e) => {
         try {
+
             await axios.post("/api/user/add", user);
             location.href="/user-list";
         }catch(err){
@@ -81,7 +83,7 @@ console.log(rolesList);
                     style={{ width: "100%", margin: "5px" }}
                     type="password"
                     name="password"
-                    label="User Name"
+                    label="Password"
                     variant="outlined"
                     onChange={handleInputs}
                 />
@@ -90,20 +92,20 @@ console.log(rolesList);
                 <TextField
                     style={{ width: "100%", margin: "5px" }}
                     type="re-password"
-                    name="Re-password"
-                    label="User Name"
+                    name="re-password"
+                    label="Re-passowrd"
                     variant="outlined"
                     onChange={handleInputs}
                 />
 
                 <br />
                 <FormControl fullWidth>
-                    <InputLabel id="demo-simple-select-label">Age</InputLabel>
+                    <InputLabel id="demo-simple-select-label">Roles</InputLabel>
                     <Select
                         labelId="demo-simple-select-label"
                         id="demo-simple-select"
-                        value={1}
-                        label="Age"
+                        label="Roles"
+                        name="roles"
                         onChange={handleInputs}
                     >
                         {(rolesList) ? rolesList.map((item) =>  <MenuItem for="rolesList" value={item._id}>{item.name}</MenuItem>) : <MenuItem for="rolesList" value="pilih">Pilih</MenuItem>}
