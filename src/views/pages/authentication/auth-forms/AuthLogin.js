@@ -140,18 +140,17 @@ const FirebaseLogin = ({ ...others }) => {
                 })}
                 onSubmit={async (values, { setErrors, setStatus, setSubmitting }) => {
                     try {
-                        console.log("cabe => ", values);
                         values.password = sha256(values.password);
                         await axios.post("/api/user/login", values);
+                        location.href="/";
                         if (scriptedRef.current) {
                             setStatus({ success: true });
                             setSubmitting(false);
                         }
                     } catch (err) {
-                        console.error(err);
                         if (scriptedRef.current) {
                             setStatus({ success: false });
-                            setErrors({ submit: err.message });
+                            setErrors({ submit: err.response.data.message });
                             setSubmitting(false);
                         }
                     }

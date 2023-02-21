@@ -24,7 +24,7 @@ app.use(
 app.use(express.static(path.resolve(__dirname, './build')));
 
 app.get('*', function(req, res) {
-    if(req.originalUrl != '/api/user/login' && !req.signedCookies.fullname && req.originalUrl != '/login'){
+    if(req.originalUrl != '/api/user/login' && !req.signedCookies.fullname && req.originalUrl != '/login' &&  req.originalUrl != '/signup'){
            return res.redirect("/login");
     }else {
         res.sendFile(path.join(__dirname, 'build', 'index.html'));
