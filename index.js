@@ -7,6 +7,8 @@ const wtq1 = require("./backend/wtq1");
 const obcd = require("./backend/obcd");
 const user = require("./backend/user");
 const roles = require("./backend/roles");
+const product = require("./backend/product");
+
 var bodyParser = require('body-parser');
 const { func } = require('prop-types');
 
@@ -16,9 +18,10 @@ app.use(cookieParser("asiap"));
 app.use(
     "/api",
     obcd,
+    product,
     roles,
     user,
-    wtq1,
+    wtq1
 );
 
 app.use(express.static(path.resolve(__dirname, './build')));

@@ -25,6 +25,9 @@ const RolesAdd = Loadable(lazy(() => import('views/roles/add.js')));
 
 const User = Loadable(lazy(() => import('views/user')));
 const UserAdd = Loadable(lazy(() => import('views/user/add.js')));
+
+const Product = Loadable(lazy(() => import('views/product')));
+const ProductAdd = Loadable(lazy(() => import('views/product/add.js')));
 // ==============================|| MAIN ROUTING ||============================== //
 
 const MainRoutes = {
@@ -65,13 +68,21 @@ const MainRoutes = {
             element: <RolesAdd />
         }, 
         {
+            path:'product-list',
+            element: <Product />
+        }, 
+        {
+            path:'product-add',
+            element: <ProductAdd />
+        }, 
+        {
             path:'user-list',
             element: <User />
         }, 
-        {
+       /* {
             path:'user-add',
             element: <UserAdd />
-        }
+        }*/
         /*{
             path: 'utils',
             children: [

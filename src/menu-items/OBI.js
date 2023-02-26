@@ -58,6 +58,26 @@ const dashboard = {
             children:[]
         }]
     }, {
+        title: 'Product',
+        id:'product',
+        type: 'collapse',
+        icon: icons.IconDashboard,
+        children:[{
+            id: 'productList',
+            title: 'List',
+            type: 'item',
+            url: '/product-list',
+            breadcrumbs: false,
+            children:[]
+        }, {
+            id: 'productAdd',
+            title: 'ADD',
+            type: 'item',
+            url: '/product-add',
+            breadcrumbs: false,
+            children:[]
+        }]
+    }, {
         title: 'User',
         id:'user',
         type: 'collapse',
@@ -69,14 +89,14 @@ const dashboard = {
             url: '/user-list',
             breadcrumbs: false,
             children:[]
-        }, {
+        }/*, {
             id: 'userAdd',
             title: 'ADD',
             type: 'item',
             url: '/user-add',
             breadcrumbs: false,
             children:[]
-        }]
+        }*/]
     }]
 };
 
