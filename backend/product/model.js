@@ -31,8 +31,6 @@ const ProductSchema = new Schema({
     name: {
       type: String,
       required: true,
-      index:true,
-      unique: true
     },
     jml: {type:Number}
   }],
