@@ -8,6 +8,7 @@ const obcd = require("./backend/obcd");
 const user = require("./backend/user");
 const roles = require("./backend/roles");
 const product = require("./backend/product");
+const warehouse = require("./backend/warehouse");
 
 var bodyParser = require('body-parser');
 const { func } = require('prop-types');
@@ -21,6 +22,7 @@ app.use(
     product,
     roles,
     user,
+    warehouse,
     wtq1
 );
 

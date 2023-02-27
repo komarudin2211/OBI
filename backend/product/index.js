@@ -4,7 +4,7 @@ const Product = require("./model");
 
 router.get('/product/list', async (req, res) => {
     try {
-        var data  = await Product.find({}, {password:0});
+        var data  = await Product.find({});
         return res.status(200).json(data);
     }catch(err) {
 
