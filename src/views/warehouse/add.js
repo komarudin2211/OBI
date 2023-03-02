@@ -56,7 +56,7 @@ const Index = () => {
     }
 
     return (
-        <MainCard title="User Add">
+        <MainCard title="Gudang Add">
             <form>
                 <TextField
                     style={{ width: "100%", margin: "5px" }}

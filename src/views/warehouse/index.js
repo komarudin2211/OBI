@@ -32,7 +32,7 @@ const Index = () => {
     
 
     return (
-        <MainCard title="Barcode List">
+        <MainCard title="Gudang List">
             <Paper sx={{ width: '100%', overflow: 'hidden' }}>
                 {wq1List ? 
                     <DataTable
