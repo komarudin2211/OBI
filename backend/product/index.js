@@ -7,7 +7,30 @@ router.get('/product/list', async (req, res) => {
         var data  = await Product.find({});
         return res.status(200).json(data);
     }catch(err) {
+        return res.status(500).json({data:err.response});
+    }
+});
 
+router.get('/product/:id', async (req, res) => {
+    try {
+        var data  = await Product.findOne({_id:req.params.id});
+        return res.status(200).json(data);
+    }catch(err) {console.log(err.message)
+        return res.status(500).json({data:err.response});
+    }
+});
+
+router.post('/product/:id', async (req, res) => {
+    try {
+        var data = await Product.findOneAndUpdate({
+            _id:req.params.id,
+        },
+        {
+            $set: req.body
+        })
+        return res.status(200).json({...data});
+    }catch(err) {console.log(err.message)
+        return res.status(500).json({data:err.response});
     }
 });
 

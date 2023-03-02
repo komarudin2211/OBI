@@ -45,15 +45,13 @@ const utilities = {
             title: 'Icons',
             type: 'collapse',
             icon: icons.IconWindmill,
-            children: [
-                {
+            children: [{
                     id: 'tabler-icons',
                     title: 'Tabler Icons',
                     type: 'item',
                     url: '/icons/tabler-icons',
                     breadcrumbs: false
-                },
-                {
+            }, {
                     id: 'material-icons',
                     title: 'Material Icons',
                     type: 'item',

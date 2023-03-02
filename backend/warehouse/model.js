@@ -11,6 +11,9 @@ const WarehouseSchema = new Schema({
   lokasi: {
     type: String,
   },
+  pic: {
+    type: String,
+  },
   createDate: {
       type: Date,
       default: Date.now()

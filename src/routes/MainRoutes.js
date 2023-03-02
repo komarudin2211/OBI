@@ -28,6 +28,10 @@ const UserAdd = Loadable(lazy(() => import('views/user/add.js')));
 
 const Product = Loadable(lazy(() => import('views/product')));
 const ProductAdd = Loadable(lazy(() => import('views/product/add.js')));
+const ProductEdit = Loadable(lazy(() => import('views/product/edit.js')));
+
+const Warehouse = Loadable(lazy(() => import('views/warehouse')));
+const WarehouseAdd = Loadable(lazy(() => import('views/warehouse/add.js')));
 // ==============================|| MAIN ROUTING ||============================== //
 
 const MainRoutes = {
@@ -74,6 +78,18 @@ const MainRoutes = {
         {
             path:'product-add',
             element: <ProductAdd />
+        }, 
+        {
+            path:'product-edit/:id',
+            element: <ProductEdit />
+        }, 
+        {
+            path:'warehouse-list',
+            element: <Warehouse />
+        }, 
+        {
+            path:'warehouse-add',
+            element: <WarehouseAdd />
         }, 
         {
             path:'user-list',

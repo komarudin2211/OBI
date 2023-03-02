@@ -11,33 +11,6 @@ const dashboard = {
     title: 'OBI',
     type: 'group',
     children: [{
-        id: 'default',
-        title: 'WTQ1',
-        type: 'item',
-        url: '/wtq1',
-        icon: icons.IconDashboard,
-        breadcrumbs: false
-    }, {
-        title: 'OBCD',
-        id:'obcd',
-        type: 'collapse',
-        icon: icons.IconDashboard,
-        children:[{
-            id: 'obcdList',
-            title: 'List',
-            type: 'item',
-            url: '/obcd-list',
-            breadcrumbs: false,
-            children:[]
-        }, {
-            id: 'obcdAdd',
-            title: 'ADD',
-            type: 'item',
-            url: '/obcd-add',
-            breadcrumbs: false,
-            children:[]
-        }]
-    }, {
         title: 'Roles',
         id:'roles',
         type: 'collapse',
@@ -74,6 +47,26 @@ const dashboard = {
             title: 'ADD',
             type: 'item',
             url: '/product-add',
+            breadcrumbs: false,
+            children:[]
+        }]
+    }, {
+        title: 'Gudang',
+        id:'warehouse',
+        type: 'collapse',
+        icon: icons.IconDashboard,
+        children:[{
+            id: 'warehouseList',
+            title: 'List',
+            type: 'item',
+            url: '/warehouse-list',
+            breadcrumbs: false,
+            children:[]
+        }, {
+            id: 'warehouseAdd',
+            title: 'ADD',
+            type: 'item',
+            url: '/warehouse-add',
             breadcrumbs: false,
             children:[]
         }]

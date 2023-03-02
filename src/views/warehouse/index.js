@@ -15,14 +15,10 @@ const Index = () => {
     const dispatch = useDispatch();
     const [load, setLoad] = React.useState(false);
     const wq1List = useSelector((state) => state.wtq1.list);
-    
-    const focusTextInput = () => {
-        JsBarcode(".barcode").init();
-    };
 
     const loadList = async () => {
         const response = await axios
-            .get(`/api/product/list`)
+            .get(`/api/warehouse/list`)
             .then((res) => res)
             .catch((err) => err.response);
 
@@ -43,23 +39,14 @@ const Index = () => {
                         pagination
                         data={wq1List}
                         columns={[{
-                            name: 'Barcode',
-                            selector: row => <svg class="barcode" ref={focusTextInput} jsbarcode-value={row.barcode} ></svg>,
-                        }, {
-                            name: 'Sublini',
-                            selector: row => row.sublini,
-                        }, {
-                            name: 'Product Name',
+                            name: 'Name',
                             selector: row => row.name,
                         }, {
-                            name: 'Volume',
-                            selector: row => row.volume,
+                            name: 'PIC',
+                            selector: row => row.pic,
                         }, {
-                            name: 'Satuan',
-                            selector: row => (row.satuan.length > 0) ? <div>{row.satuan.map((item) => <ol><li>Name : {item.name}</li><li>Qty : {item.jml}</li></ol>)}</div> : "kosong"
-                        }, {
-                            name: 'Action',
-                            selector: row => (<a href={"product-edit/"+row._id}>edit</a>)
+                            name: 'Date',
+                            selector: row => row.createDate,
                         }]} 
                     /> : ""
                 }

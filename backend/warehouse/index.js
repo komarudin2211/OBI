@@ -13,10 +13,11 @@ router.get('/warehouse/list', async (req, res) => {
 
 router.post('/warehouse/add', async (req, res) => {
     try{
-        var {name, lokasi} = req.body
+        var {name, lokasi, pic} = req.body
         var warehouse = new Warehouse();
         warehouse.name = name;
         warehouse.lokasi = lokasi;
+        warehouse.pic = pic;
         warehouse.createDate = new Date();
         
         let aa = await warehouse.save();
@@ -26,6 +27,5 @@ router.post('/warehouse/add', async (req, res) => {
         return res.status(500).json({message:err.message});
     }
 });
-
 
 module.exports = router
