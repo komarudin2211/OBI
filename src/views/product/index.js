@@ -17,7 +17,7 @@ const Index = () => {
     const wq1List = useSelector((state) => state.wtq1.list);
     
     const focusTextInput = () => {
-        JsBarcode(".barcode").init();
+        JsBarcode(".barcode").options({fontSize:11}).init();
     };
 
     const loadList = async () => {
@@ -43,6 +43,7 @@ const Index = () => {
                         pagination
                         data={wq1List}
                         columns={[{
+                            width:'30%',
                             name: 'Barcode',
                             selector: row => <svg class="barcode" ref={focusTextInput} jsbarcode-value={row.barcode} ></svg>,
                         }, {
