@@ -22,6 +22,7 @@
         "express": "^4.18.2",
         "formik": "^2.2.9",
         "framer-motion": "^6.3.16",
+        "html5-qrcode": "^2.3.7",
         "js-sha256": "^0.9.0",
         "jsbarcode": "^3.11.5",
         "material-ui-popup-state": "^4.0.1",

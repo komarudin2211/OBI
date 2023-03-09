@@ -10,6 +10,14 @@ router.get('/product/list', async (req, res) => {
         return res.status(500).json({data:err.response});
     }
 });
+router.get('/product/barcode/:barcode', async (req, res) => {
+    try {
+        var data  = await Product.findOne({barcode:req.params.barcode});
+        return res.status(200).json(data);
+    }catch(err) {
+        return res.status(500).json({data:err.response});
+    }
+});
 
 router.get('/product/:id', async (req, res) => {
     try {

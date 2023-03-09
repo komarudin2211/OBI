@@ -16,9 +16,6 @@ const UtilsTablerIcons = Loadable(lazy(() => import('views/utilities/TablerIcons
 
 // sample page routing
 const SamplePage = Loadable(lazy(() => import('views/sample-page')));
-const Wtq = Loadable(lazy(() => import('views/wtq')));
-const Obcd = Loadable(lazy(() => import('views/obcd')));
-const ObcdAdd = Loadable(lazy(() => import('views/obcd/add.js')));
 
 const Roles = Loadable(lazy(() => import('views/roles')));
 const RolesAdd = Loadable(lazy(() => import('views/roles/add.js')));
@@ -29,6 +26,10 @@ const UserAdd = Loadable(lazy(() => import('views/user/add.js')));
 const Product = Loadable(lazy(() => import('views/product')));
 const ProductAdd = Loadable(lazy(() => import('views/product/add.js')));
 const ProductEdit = Loadable(lazy(() => import('views/product/edit.js')));
+
+const Inventory = Loadable(lazy(() => import('views/inventory')));
+const InventoryAdd = Loadable(lazy(() => import('views/inventory/add.js')));
+const InventoryEdit = Loadable(lazy(() => import('views/inventory/edit.js')));
 
 const Warehouse = Loadable(lazy(() => import('views/warehouse')));
 const WarehouseAdd = Loadable(lazy(() => import('views/warehouse/add.js')));
@@ -52,18 +53,6 @@ const MainRoutes = {
             ]
         },
         {
-            path: 'wtq1',
-            element: <Wtq />
-        }, 
-        {
-            path:'obcd-list',
-            element: <Obcd />
-        }, 
-        {
-            path:'obcd-add',
-            element: <ObcdAdd />
-        }, 
-        {
             path:'roles-list',
             element: <Roles />
         }, 
@@ -82,6 +71,15 @@ const MainRoutes = {
         {
             path:'product-edit/:id',
             element: <ProductEdit />
+        }, {
+            path:'inventory-list',
+            element: <Inventory />
+        }, {
+            path:'inventory-add',
+            element: <InventoryAdd />
+        }, {
+            path:'inventory-edit/:id',
+            element: <InventoryEdit />
         }, 
         {
             path:'warehouse-list',

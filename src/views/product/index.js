@@ -57,7 +57,7 @@ const Index = () => {
                             selector: row => row.volume,
                         }, {
                             name: 'Satuan',
-                            selector: row => (row.satuan.length > 0) ? <div>{row.satuan.map((item) => <ol><li>Name : {item.name}</li><li>Qty : {item.jml}</li></ol>)}</div> : "kosong"
+                            selector: row => (row.satuan && row.satuan.length > 0) ? <div>{row.satuan.map((item) => <ol><li>Name : {item.name}</li><li>Qty kali : {item.jml}</li></ol>)}</div> : "kosong"
                         }, {
                             name: 'Action',
                             selector: row => (<a href={"product-edit/"+row._id}>edit</a>)

@@ -3,8 +3,9 @@ const app = express();
 const path = require('path');
 const cookieParser = require('cookie-parser');
 const port = process.env.PORT || 3500;
-const wtq1 = require("./backend/wtq1");
-const obcd = require("./backend/obcd");
+
+const invetory = require("./backend/inventory");
+
 const user = require("./backend/user");
 const roles = require("./backend/roles");
 const product = require("./backend/product");
@@ -18,12 +19,11 @@ app.use(cookieParser("asiap"));
 
 app.use(
     "/api",
-    obcd,
     product,
     roles,
     user,
     warehouse,
-    wtq1
+    invetory
 );
 
 app.use(express.static(path.resolve(__dirname, './build')));

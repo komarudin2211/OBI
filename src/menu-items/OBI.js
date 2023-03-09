@@ -11,22 +11,22 @@ const dashboard = {
     title: 'OBI',
     type: 'group',
     children: [{
-        title: 'Roles',
-        id:'roles',
+        title: 'Stok',
+        id:'inventory',
         type: 'collapse',
         icon: icons.IconDashboard,
         children:[{
-            id: 'rolesList',
+            id: 'inventoryList',
             title: 'List',
             type: 'item',
-            url: '/roles-list',
+            url: '/inventory-list',
             breadcrumbs: false,
             children:[]
         }, {
-            id: 'rolesAdd',
+            id: 'inventoryAdd',
             title: 'ADD',
             type: 'item',
-            url: '/roles-add',
+            url: '/inventory-add',
             breadcrumbs: false,
             children:[]
         }]
@@ -50,7 +50,7 @@ const dashboard = {
             breadcrumbs: false,
             children:[]
         }]
-    }, {
+    },{
         title: 'Gudang',
         id:'warehouse',
         type: 'collapse',
@@ -90,6 +90,26 @@ const dashboard = {
             breadcrumbs: false,
             children:[]
         }*/]
+    }, {
+        title: 'Roles',
+        id:'roles',
+        type: 'collapse',
+        icon: icons.IconDashboard,
+        children:[{
+            id: 'rolesList',
+            title: 'List',
+            type: 'item',
+            url: '/roles-list',
+            breadcrumbs: false,
+            children:[]
+        }, {
+            id: 'rolesAdd',
+            title: 'ADD',
+            type: 'item',
+            url: '/roles-add',
+            breadcrumbs: false,
+            children:[]
+        }]
     }]
 };
 

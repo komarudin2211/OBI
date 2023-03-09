@@ -15,25 +15,25 @@ const Index = () => {
     const dispatch = useDispatch();
     const [load, setLoad] = React.useState(false);
     const wq1List = useSelector((state) => state.wtq1.list);
+
     const focusTextInput = () => {
-        JsBarcode(".barcode").init();
+        JsBarcode(".barcode").options({width:2}).init();
     };
 
     const loadList = async () => {
         const response = await axios
-            .get(`/api/obcd/list`)
+            .get(`/api/inventory/list`)
             .then((res) => res)
             .catch((err) => err.response);
 
-        console.log('response ', response);
-        dispatch(setList(response.data.data));
+        dispatch(setList(response.data));
     };
 
     useEffect(() => {
-        JsBarcode(".barcode").init();
         loadList();
     }, []);
     
+
     return (
         <MainCard title="Barcode List">
             <Paper sx={{ width: '100%', overflow: 'hidden' }}>
@@ -42,18 +42,25 @@ const Index = () => {
                         pagination
                         data={wq1List}
                         columns={[{
-                            name: 'Barcode',
-                            selector: row => <svg class="barcode" ref={focusTextInput} jsbarcode-value={row.BcdCode} ></svg>
-                        
+                            width:'30%',
+                            name: 'Product name',
+                            selector: row => (row.product) ? row.product.name : 'kosong',
                         }, {
-                            name: 'Item Code',
-                            selector: row => row.ItemCode,
+                            name: 'Gudang',
+                            selector: row => (row.warehouse) ? row.warehouse.name : 'kosong',
                         }, {
-                            name: 'Uom Entry',
-                            selector: row => row.UomEntry,
+                            name: 'Satuan',
+                            selector: row => (row.satuan && row.satuan.length > 0) ? <div>{row.satuan.map((item) => <ol>
+                                <li>Qty : {item.qtyStock} {item.name}</li>
+                                <li>Qty kali : {item.jml}</li>
+                                <li>Total Stock : {item.jmlStock}</li>
+                            </ol>)}</div> : "kosong"
                         }, {
-                            name: 'Update date',
-                            selector: row => row.UpdateDate,
+                            name :' Expire Date',
+                            selector: row => row.expireDate,
+                        }, {
+                            name: 'Action',
+                            selector: row => (<a href={"product-edit/"+row._id}>edit</a>)
                         }]} 
                     /> : ""
                 }
