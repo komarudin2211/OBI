@@ -42,7 +42,6 @@ const Index = () => {
                 item["jmlStock"] = value * item.jml;
                 item["perkalian"] = item.jml;
                 item["qtyStock"] = value;
-                delete item._id;
 
                 dataSatuan.push(item)
             }
@@ -75,6 +74,10 @@ const Index = () => {
                 return alert('Gudang harus dipilih');
             }
 
+            if(!product.expire_date){
+                return alert('Tanggal expire harus dipilih');
+            }
+
             var qty = 0;
 
             for(var i=0; i < product.satuan.length;  i++){
@@ -88,7 +91,7 @@ const Index = () => {
             }
 
             await axios.post("/api/inventory/add", product);
-           // location.href="/inventory-list";
+            location.href="/inventory-list";
         }catch(err){
             alert(err.message);
         }
@@ -124,6 +127,13 @@ const Index = () => {
                         {(warehouseList) ? warehouseList.map((item) =>  <MenuItem for="rolesList" value={item._id}>{item.name}</MenuItem>) : <MenuItem for="rolesList" value="pilih">Pilih</MenuItem>}
                     </Select>
                 </FormControl>
+                <TextField
+                    style={{ width: "40%", margin: "5px" }}
+                    type="date"
+                    name="expire_date"
+                    variant="outlined"
+                    onChange={handleInputs}
+                />
                 <TextField
                     style={{ width: "100%", margin: "5px" }}
                     type="text"

@@ -17,7 +17,7 @@ async function main() {
       });
     }
     else{
-      await mongoose.connect('mongodb://'+process.env.DB_HOST+'/'+process.env.DB_NAME);
+      let db = await mongoose.connect('mongodb://'+process.env.DB_HOST+'/'+process.env.DB_NAME);
     }
 
     console.log("================");
@@ -29,3 +29,5 @@ async function main() {
     return e.message;
   }
 }
+
+module.exports = main

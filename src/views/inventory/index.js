@@ -51,9 +51,9 @@ const Index = () => {
                         }, {
                             name: 'Satuan',
                             selector: row => (row.satuan && row.satuan.length > 0) ? <div>{row.satuan.map((item) => <ol>
-                                <li>Qty : {item.qtyStock} {item.name}</li>
+                                <li>Qty : {(item.qtyStock) ? item.qtyStock : 0} {item.name}</li>
                                 <li>Qty kali : {item.jml}</li>
-                                <li>Total Stock : {item.jmlStock}</li>
+                                <li>Total Stock : {(item.jmlStock) ? item.jmlStock : 0}</li>
                             </ol>)}</div> : "kosong"
                         }, {
                             name :' Expire Date',

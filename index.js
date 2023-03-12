@@ -2,6 +2,15 @@ const express = require('express');
 const app = express();
 const path = require('path');
 const cookieParser = require('cookie-parser');
+
+/*************************** 
+********** call db *********
+****************************/
+require("./config/mongo_db");
+/*************************** 
+********** call db *********
+****************************/
+
 const port = process.env.PORT || 3500;
 
 const invetory = require("./backend/inventory");
