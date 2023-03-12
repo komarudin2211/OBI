@@ -1,12 +1,11 @@
 const express = require('express');
 const router = express.Router();
-const Inventory = require("./model");
-const History = require("../history/model");
+const History = require("./model");
 var mongoose = require('mongoose');
 
-router.get('/inventory/list', async (req, res) => {
+router.get('/history/list', async (req, res) => {
     try {
-        var data  = await Inventory.find({}).populate("product").populate("warehouse");
+        var data  = await History.find({});
 
         return res.status(200).json(data);
     }catch(err) {
@@ -14,21 +13,21 @@ router.get('/inventory/list', async (req, res) => {
     }
 });
 
-router.get('/inventory/:id', async (req, res) => {
+router.get('/history/:id', async (req, res) => {
     try {
-        var data  = await Inventory.findOne({_id:req.params.id});
+        var data  = await History.findOne({_id:req.params.id});
         return res.status(200).json(data);
-    }catch(err) {console.log(err.message)
+    }catch(err) {
         return res.status(500).json({data:err.response});
     }
 });
 
 
-router.post('/inventory/add', async (req, res) => {
+router.post('/history/add', async (req, res) => {
     try{console.log("cookies => ", req.signedCookies.fullname);
         var {_id, warehouse, name, sublini, volume, barcode, sku, satuan, expire_date} = req.body
 
-        /*var data  = await Inventory.findOne({product:_id, warehouse:warehouse});
+        /*var data  = await History.findOne({product:_id, warehouse:warehouse});
 
         if(data) {
             for(let i=0; i < data.satuan.length; i++){
@@ -46,7 +45,7 @@ router.post('/inventory/add', async (req, res) => {
             }
         }
 
-        var data = await Inventory.findOneAndUpdate({
+        var data = await History.findOneAndUpdate({
             _id:(data) ? data._id : null,
         },
         {
@@ -69,40 +68,35 @@ router.post('/inventory/add', async (req, res) => {
 
         // console.log("new => ", satuan);
 
-        var inventory = new Inventory();
-        inventory.product = _id;
-        inventory.name = name;
-        inventory.warehouse = warehouse;
-        inventory.sublini = sublini;
-        inventory.volume = volume
-        inventory.barcode = barcode;
-        inventory.sku = sku;
-        inventory.satuan = satuan;
-        inventory.expireDate = expire_date
-        inventory.createDate = new Date();
-
-        let result = await inventory.save();
-
         var history = new History();
-        history.text = {type: "Add data ", data: JSON.stringify(req.body)}
-        history.pic = req.signedCookies.fullname
+        history.product = _id;
+        history.name = name;
+        history.warehouse = warehouse;
+        history.sublini = sublini;
+        history.volume = volume
+        history.barcode = barcode;
+        history.sku = sku;
+        history.satuan = satuan;
+        history.expireDate = expire_date
         history.createDate = new Date();
-        history.type = 'Inventory'
-        history.save()
-        return res.status(200).json({result});
+ 
+        let aa = await history.save();
+
+        return res.status(200).json({aa});
     }catch(err) {console.log(err)
         return res.status(500).json({message:err.message});
     }
 });
 
-router.post('/inventory/:id', async (req, res) => {
+router.post('/history/:id', async (req, res) => {
     try {
-        var data = await Inventory.findOneAndUpdate({
+        var data = await History.findOneAndUpdate({
             _id:req.params.id,
         },
         {
             $set: req.body
-        })
+        });
+
         return res.status(200).json({...data});
     }catch(err) {console.log(err.message)
         return res.status(500).json({data:err.response});

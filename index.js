@@ -19,6 +19,7 @@ const user = require("./backend/user");
 const roles = require("./backend/roles");
 const product = require("./backend/product");
 const warehouse = require("./backend/warehouse");
+const history = require("./backend/history");
 
 var bodyParser = require('body-parser');
 const { func } = require('prop-types');
@@ -32,7 +33,8 @@ app.use(
     roles,
     user,
     warehouse,
-    invetory
+    invetory,
+    history
 );
 
 app.use(express.static(path.resolve(__dirname, './build')));
