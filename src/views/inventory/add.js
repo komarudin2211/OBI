@@ -102,7 +102,12 @@ const Index = () => {
  
         let data = await axios.get("/api/product/barcode/"+decodedText);
 
-        setProduct(data.data)
+        setProduct(data.data);
+        Html5QrcodePlugin.stop().then((ignore) => {console.log("stop")
+            // QR Code scanning is stopped.
+        }).catch((err) => {
+            console.log("error");
+        });
     };
 
     return (
@@ -132,6 +137,7 @@ const Index = () => {
                     type="date"
                     name="expire_date"
                     variant="outlined"
+                    step = "2"
                     onChange={handleInputs}
                 />
                 <TextField

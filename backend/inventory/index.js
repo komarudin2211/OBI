@@ -27,7 +27,7 @@ router.post('/inventory/add', async (req, res) => {
     try{
         var {_id, warehouse, name, sublini, volume, barcode, sku, satuan, expire_date} = req.body
 
-        var data  = await Inventory.findOne({product:_id, warehouse:warehouse});
+        /*var data  = await Inventory.findOne({product:_id, warehouse:warehouse});
 
         if(data) {
             for(let i=0; i < data.satuan.length; i++){
@@ -64,23 +64,23 @@ router.post('/inventory/add', async (req, res) => {
         }, {
             new: true,
             upsert: true 
-        })
+        })*/
 
         // console.log("new => ", satuan);
 
-        // var inventory = new Inventory();
-        // inventory.product = _id;
-        // inventory.name = name;
-        // inventory.warehouse = warehouse;
-        // inventory.sublini = sublini;
-        // inventory.volume = volume
-        // inventory.barcode = barcode;
-        // inventory.sku = sku;
-        // inventory.satuan = satuan;
-        // inventory.expireDate = expire_date
-        // inventory.createDate = new Date();
+        var inventory = new Inventory();
+        inventory.product = _id;
+        inventory.name = name;
+        inventory.warehouse = warehouse;
+        inventory.sublini = sublini;
+        inventory.volume = volume
+        inventory.barcode = barcode;
+        inventory.sku = sku;
+        inventory.satuan = satuan;
+        inventory.expireDate = expire_date
+        inventory.createDate = new Date();
  
-        // let aa = await inventory.save();
+        let aa = await inventory.save();
 
         return res.status(200).json({data});
     }catch(err) {console.log(err)
