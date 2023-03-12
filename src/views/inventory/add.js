@@ -102,8 +102,12 @@ const Index = () => {
  
         let data = await axios.get("/api/product/barcode/"+decodedText);
 
-        setProduct(data.data);
-
+        if(data && data.data) {
+            setProduct(data.data);
+        }else{
+            alert("barcode tidak dikenal, ", decodedText)
+        }
+       
         Html5QrcodePlugin.stop().then((ignore) => {
             alert("stop");
             // QR Code scanning is stopped.
@@ -112,6 +116,10 @@ const Index = () => {
         });
     };
 
+    const onNewScanError =  (err) => {
+        //alert(err);
+    }
+
     return (
         <MainCard title="Product Add">
             <Html5QrcodePlugin
@@ -119,6 +127,7 @@ const Index = () => {
                 qrbox={{width: 300, height: 100}}
                 disableFlip={false}
                 qrCodeSuccessCallback={onNewScanResult}
+                qrCodeErrorCallback={onNewScanError}
             />
 
             {(product) ? <form >
