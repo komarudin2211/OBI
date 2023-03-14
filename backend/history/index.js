@@ -7,6 +7,12 @@ router.get('/history/list', async (req, res) => {
     try {
         var data  = await History.find({});
 
+        for(let i=0; i < data.length; i++){
+            console.log(data[i]);
+            data[i].text.data = JSON.parse(data[i].text.data);
+            console.log(data[i]);
+        }
+        
         return res.status(200).json(data);
     }catch(err) {
         return res.status(500).json({data:err.response});

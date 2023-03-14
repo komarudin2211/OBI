@@ -29,6 +29,13 @@ const dashboard = {
             url: '/inventory-add',
             breadcrumbs: false,
             children:[]
+        }, {
+            id: 'historyList',
+            title: 'History',
+            type: 'item',
+            url: '/history-list',
+            breadcrumbs: false,
+            children:[]
         }]
     }, {
         title: 'Product',
