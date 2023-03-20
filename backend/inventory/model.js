@@ -16,6 +16,10 @@ const ProductSchema = new Schema({
     type: String,
     required: true
   },
+  barcode: {
+    type: String,
+    required: true
+  },
   satuan: [{
     name: {
       type: String,

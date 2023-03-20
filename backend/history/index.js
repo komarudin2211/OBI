@@ -5,7 +5,7 @@ var mongoose = require('mongoose');
 
 router.get('/history/list', async (req, res) => {
     try {
-        var data  = await History.find({});
+        var data  = await History.find({}).sort("-createDate");
 
         for(let i=0; i < data.length; i++){
             console.log(data[i]);

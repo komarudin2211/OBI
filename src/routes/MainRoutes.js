@@ -29,6 +29,7 @@ const ProductEdit = Loadable(lazy(() => import('views/product/edit.js')));
 
 const Inventory = Loadable(lazy(() => import('views/inventory')));
 const InventoryAdd = Loadable(lazy(() => import('views/inventory/add.js')));
+const InventorySale = Loadable(lazy(() => import('views/inventory/sale.js')));
 const InventoryEdit = Loadable(lazy(() => import('views/inventory/edit.js')));
 const History = Loadable(lazy(() => import('views/inventory/history.js')));
 
@@ -81,6 +82,9 @@ const MainRoutes = {
         }, {
             path:'inventory-add',
             element: <InventoryAdd />
+        }, {
+            path:'inventory-sale',
+            element: <InventorySale />
         }, {
             path:'inventory-edit/:id',
             element: <InventoryEdit />

@@ -1,5 +1,5 @@
 // material-ui
-import { Typography } from '@mui/material';
+
 import DataTable from 'react-data-table-component';
 import MainCard from 'ui-component/cards/MainCard';
 import { useSelector, useDispatch } from 'react-redux';
@@ -42,22 +42,20 @@ const Index = () => {
                         pagination
                         data={wq1List}
                         columns={[{
-                            width:'30%',
                             name: 'Product name',
                             selector: row => (row.product) ? row.product.name : 'kosong',
                         }, {
                             name: 'Gudang',
                             selector: row => (row.warehouse) ? row.warehouse.name : 'kosong',
                         }, {
-                            name: 'Satuan',
-                            selector: row => (row.satuan && row.satuan.length > 0) ? <div>{row.satuan.map((item) => <ol>
-                                <li>Qty : {(item.qtyStock) ? item.qtyStock : 0} {item.name}</li>
-                                <li>Qty kali : {item.jml}</li>
-                                <li>Total Stock : {(item.jmlStock) ? item.jmlStock : 0}</li>
-                            </ol>)}</div> : "kosong"
+                            name: 'Qty',
+                            grow: 2,
+                            selector: row => (row.satuan && row.satuan.length > 0) ? <div>{row.satuan.map((item) =>  <ul>
+                                <li>{(item.qtyStock == item.jmlStock) ? (<><b>{(item.jmlStock) ? item.jmlStock : 0}</b> Pcs</>) : (<><b>{(item.qtyStock) ? item.qtyStock : 0}</b> {item.name} / <b>{item.jmlStock}</b> Pcs</>)}</li>
+                            </ul>)}</div> : "kosong"
                         }, {
                             name :' Expire Date',
-                            selector: row => row.expireDate,
+                            selector: row => row.expireDate
                         }, {
                             name: 'Action',
                             selector: row => (<a href={"product-edit/"+row._id}>edit</a>)

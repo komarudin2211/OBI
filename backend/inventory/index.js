@@ -6,10 +6,26 @@ var mongoose = require('mongoose');
 
 router.get('/inventory/list', async (req, res) => {
     try {
-        var data  = await Inventory.find({}).populate("product").populate("warehouse");
+        var result  = await Inventory.find({}).populate("product").populate("warehouse").sort('expireDate');
+        var data = []
+        
+        for(let i=0; i < result.length; i++){
+            var year = result[i].expireDate.getFullYear();
+            var month = result[i].expireDate.getMonth()+1;
+            month = (month > 9) ? month : "0"+month
+            var date = result[i].expireDate.getDate();
+            date = (date > 9) ? date : "0"+date
+
+            data.push({
+                satuan: result[i].satuan,
+                warehouse: result[i].warehouse,
+                product: result[i].product,
+                expireDate: date + "-" + month + "-"+year,
+            })
+         }
 
         return res.status(200).json(data);
-    }catch(err) {
+    }catch(err) {console.log(err);
         return res.status(500).json({data:err.response});
     }
 });
@@ -23,24 +39,21 @@ router.get('/inventory/:id', async (req, res) => {
     }
 });
 
+router.post('/inventory/sale', async (req,res) => {
+    try {
+        var {_id, warehouse, name, sublini, volume, barcode, sku, satuan, expire_date} = req.body;
 
-router.post('/inventory/add', async (req, res) => {
-    try{console.log("cookies => ", req.signedCookies.fullname);
-        var {_id, warehouse, name, sublini, volume, barcode, sku, satuan, expire_date} = req.body
-
-        /*var data  = await Inventory.findOne({product:_id, warehouse:warehouse});
+        var data  = await Inventory.findOne({barcode:barcode, warehouse:warehouse._id});
 
         if(data) {
+            data = data.toObject();
+            var satuanHistory = [];
             for(let i=0; i < data.satuan.length; i++){
-               if(data.satuan[i]._id.toString() == satuan[i]._id){
+               if(data.satuan[i]._id.toString() == satuan[i]._id && satuan[i].qty_sale){
+                    satuanHistory.push({qtyStock:satuan[i].qty_sale, name:satuan[i].name});
 
-                    satuan[i].qtyStock = (isNaN(satuan[i].qtyStock)) ? 0 : satuan[i].qtyStock;
-                    satuan[i].jmlStock = (isNaN(satuan[i].jmlStock)) ? 0 : satuan[i].jmlStock;
-                    data.satuan[i].qtyStock = (isNaN(data.satuan[i].qtyStock)) ? 0 : data.satuan[i].qtyStock;
-                    data.satuan[i].jmlStock = (isNaN(data.satuan[i].jmlStock)) ? 0 : data.satuan[i].jmlStock;
-
-                    satuan[i].qtyStock = (data.satuan[i].qtyStock) ? parseInt(satuan[i].qtyStock) + parseInt(data.satuan[i].qtyStock) : satuan[i].qtyStock;
-                    satuan[i].jmlStock = (data.satuan[i].jmlStock) ? satuan[i].jmlStock + data.satuan[i].jmlStock : satuan[i].jmlStock
+                    data.satuan[i].qtyStock -= parseInt(satuan[i].qty_sale);
+                    data.satuan[i].jmlStock -= (parseInt(satuan[i].qty_sale) * data.satuan[i].jml);
                }
                
             }
@@ -51,23 +64,35 @@ router.post('/inventory/add', async (req, res) => {
         },
         {
             $set: {
-                product : _id,
-                name: name,
-                warehouse:warehouse,
-                sublini:sublini,
-                volume :volume,
-                barcode:barcode,
-                sku:sku,
-                satuan: satuan,
-                expireDate: expire_date,
+                
+                satuan: data.satuan,
                 createDate : new Date()
             }
         }, {
             new: true,
             upsert: true 
-        })*/
+        });
 
-        // console.log("new => ", satuan);
+        req.body.satuan = satuanHistory;
+        var dataHist = req.body
+        dataHist.satuan = satuanHistory;
+
+        var history = new History();
+        history.text = {type: "Jual Barang ", data: JSON.stringify(dataHist)}
+        history.pic = req.signedCookies.fullname
+        history.createDate = new Date();
+        history.type = 'Inventory'
+        history.save()
+
+        return res.status(200).json(data);
+    }catch(err){console.log("err", err)
+        return res.status(500).json({data:err.response});
+    }
+});
+
+router.post('/inventory/add', async (req, res) => {
+    try{
+        var {_id, warehouse, name, sublini, volume, barcode, sku, satuan, expire_date} = req.body;
 
         var inventory = new Inventory();
         inventory.product = _id;
@@ -105,6 +130,29 @@ router.post('/inventory/:id', async (req, res) => {
         })
         return res.status(200).json({...data});
     }catch(err) {console.log(err.message)
+        return res.status(500).json({data:err.response});
+    }
+});
+
+router.get('/inventory/barcode/:barcode', async (req, res) => {
+    try {
+        var data  = await Inventory.findOne({barcode:req.params.barcode}).populate("product").populate("warehouse").sort("expireDate");
+
+        if(!data){
+            return res.status(200).json({message: 'Product kosong'});
+        }
+
+        var year = data.expireDate.getFullYear();
+        var month = data.expireDate.getMonth() + 1;
+        month = (month > 9) ? month : "0"+month;
+        var date = data.expireDate.getDate();
+        date = (date > 9) ? date : "0"+date;
+
+        data = data.toObject();
+        data.expireDate = date +"-"+ month +"-"+ year;
+
+        return res.status(200).json(data);
+    }catch(err) {console.log(err)
         return res.status(500).json({data:err.response});
     }
 });

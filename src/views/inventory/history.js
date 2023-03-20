@@ -50,7 +50,7 @@ console.log("aia", wq1List)
                         }, {
                             width:"20%",
                             name: 'Descripsi',
-                            selector: row => (row.text.data.satuan) ? row.text.data.satuan.map((item) => (item.qtyStock) ? (<div>{row.text.type} <b>{item.qtyStock}</b> {item.name}</div>) : '') : row.text.data.toString()
+                            selector: row => (row.text.data && row.text.data.satuan) ? row.text.data.satuan.map((item) => (item.qtyStock) ? (<div>{row.text.type} <b>{item.qtyStock}</b> {item.name}</div>) : '') : row.text.data.toString()
                         }, {
                             name :'Date',
                             selector: row => row.createDate,

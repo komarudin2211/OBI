@@ -30,6 +30,13 @@ const dashboard = {
             breadcrumbs: false,
             children:[]
         }, {
+            id: 'inventorySale',
+            title: 'Jual',
+            type: 'item',
+            url: '/inventory-sale',
+            breadcrumbs: false,
+            children:[]
+        }, {
             id: 'historyList',
             title: 'History',
             type: 'item',

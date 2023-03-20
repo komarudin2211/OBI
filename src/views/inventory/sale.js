@@ -39,15 +39,18 @@ const Index = () => {
 
         product.satuan.map(item2 => {
             if(item2._id == item._id){
-                item["jmlStock"] = value * item.jml;
-                item["perkalian"] = item.jml;
-                item["qtyStock"] = value;
+                item2.qty_sale = value;
 
-                dataSatuan.push(item)
+                if(parseInt(value) > parseInt(item2.qtyStock)) {
+                    item2.over = true;
+                }
+
+                if(parseInt(value) <= parseInt(item2.qtyStock)) {
+                    item2.over = false;
+                }
             }
-            else{
-                dataSatuan.push(item2)
-            }
+
+            dataSatuan.push(item2)
         });
 
         product.satuan = dataSatuan;
@@ -70,19 +73,16 @@ const Index = () => {
 
     const handleSubmit = async (e) => {
         try {
-            if(!product.warehouse){
-                return alert('Gudang harus dipilih');
-            }
-
-            if(!product.expire_date){
-                return alert('Tanggal expire harus dipilih');
-            }
-
             var qty = 0;
+            var over = false
 
-            for(var i=0; i < product.satuan.length;  i++){
-                if(product.satuan[i].qtyStock){
-                    qty = product.satuan[i].qtyStock;
+            for(var i=0; i < product.satuan.length;  i++){console.log(product.satuan[i])
+                if(product.satuan[i].qty_sale){
+                    qty = parseInt(product.satuan[i].qty_sale);
+                }
+                if(product.satuan[i].over){
+                    over = product.satuan[i].over;
+                    break;
                 }
 
                 if(qty < 0){
@@ -90,15 +90,19 @@ const Index = () => {
                 }
             }
 
+            if(over){
+                return alert("Qty melebihi stok");
+            }
+
+            if(qty < 0){
+                return alert("Qty Jual harus positif");
+            }
+
             if(qty == 0){
                 return alert("Minimal qty satuan di isi satu");
             }
 
-            if(qty < 0){
-                return alert("qty stok tidak boleh negative");
-            }
-
-            await axios.post("/api/inventory/add", product);
+            await axios.post("/api/inventory/sale", product);
             location.href="/inventory-list";
         }catch(err){
             alert(err.message);
@@ -106,22 +110,20 @@ const Index = () => {
     }
 
     const onNewScanResult = async (decodedText, decodedResult) => {
-        // handle decoded results here
+  
  
-        let data = await axios.get("/api/product/barcode/"+decodedText);
+        let data = await axios.get("/api/inventory/barcode/"+decodedText);
 
-        if(data && data.data) {
-            setProduct(data.data);
+        if(data && data.data) {console.log(data.data);
+            if(data.data._id){
+                setProduct(data.data);
+            }
+            else{
+                alert(data.data.message);
+            }
         }else{
             alert("barcode tidak dikenal, ", decodedText)
         }
-       
-        Html5QrcodePlugin.stop().then((ignore) => {
-            alert("stop");
-            // QR Code scanning is stopped.
-        }).catch((err) => {
-            alert("error");
-        });
     };
 
     const onNewScanError =  (err) => {
@@ -129,7 +131,7 @@ const Index = () => {
     }
 
     return (
-        <MainCard title="Product Add">
+        <MainCard title="Jual">
             <Html5QrcodePlugin
                 fps={10}
                 qrbox={{width: 300, height: 100}}
@@ -145,7 +147,9 @@ const Index = () => {
                         labelId="demo-simple-select-label"
                         id="demo-simple-select"
                         label="Gudang"
+                        disabled="disabled"
                         name="warehouse"
+                        value={product.warehouse._id}
                         onChange={handleInputs}
                     >
                         {(warehouseList) ? warehouseList.map((item) =>  <MenuItem for="rolesList" value={item._id}>{item.name}</MenuItem>) : <MenuItem for="rolesList" value="pilih">Pilih</MenuItem>}
@@ -153,9 +157,12 @@ const Index = () => {
                 </FormControl>
                 <TextField
                     style={{ width: "40%", margin: "5px" }}
-                    type="date"
+                    type="text"
                     name="expire_date"
                     variant="outlined"
+                    disabled="disabled"
+                    label="Expire Date"
+                    value={product.expireDate}
                     step = "2"
                     onChange={handleInputs}
                 />
@@ -163,8 +170,9 @@ const Index = () => {
                     style={{ width: "100%", margin: "5px" }}
                     type="text"
                     name="name"
+                    label="Nama"
                     disabled="disabled"
-                    value={product.name}
+                    value={product.product.name}
                     variant="outlined"
                     onChange={handleInputs}
                 />
@@ -175,7 +183,7 @@ const Index = () => {
                     style={{ width: "100%", margin: "5px" }}
                     type="text"
                     name="sublini"
-                    value={product.sublini}
+                    value={product.product.sublini}
                     disabled="disabled"
                     variant="outlined"
                     onChange={handleInputs}
@@ -186,7 +194,7 @@ const Index = () => {
                     style={{ width: "100%", margin: "5px" }}
                     type="text"
                     name="volume"
-                    value={product.volume}
+                    value={product.product.volume}
                     disabled="disabled"
                     variant="outlined"
                     onChange={handleInputs}
@@ -199,7 +207,7 @@ const Index = () => {
                     type="text"
                     name="sku"
                     disabled="disabled"
-                    value={product.sku}
+                    value={product.product.sku}
                     variant="outlined"
                     onChange={handleInputs}
                 />
@@ -219,13 +227,14 @@ const Index = () => {
                         </Grid>
                         <Grid item xs={3}>
                             <TextField
+                                error={item.over}
                                 style={{ width: "100%", margin: "5px" }}
                                 type="number"
                                 ref={input => input && input.focus()}
-                                name={"qty_"+(index+1)}
-                                label={"Qty "+(index+1)}
-                                inputProps={{ inputmode: 'numeric', min:'0', pattern: '[0-9]*' }}
+                                name="qty"
+                                label={"Qty "+item.name}
                                 variant="outlined"
+                                helperText={(item.over) ? "Jumlah melebihi stok" : ""}
                                 onChange={(e) => handleInputsSatuan(e, item)}
                             />
                         </Grid>
@@ -233,9 +242,9 @@ const Index = () => {
                             <TextField
                                 style={{ width: "100%", margin: "5px" }}
                                 type="number"
-                                value={item.jml}
+                                value={item.qtyStock}
                                 name={"jml_"+(index+1)}
-                                label={"Per "+item.name}
+                                label={"Jml "+item.name}
                                 variant="outlined"
                                 disabled="disabled"
                                 onChange={handleInputsSatuan}
@@ -248,6 +257,7 @@ const Index = () => {
                                 value={item.jmlStock}
                                 name={"jml_"+(index+1)}
                                 variant="outlined"
+                                label={"Jml Pcs"}
                                 disabled="disabled"
                                 onChange={handleInputsSatuan}
                             />
