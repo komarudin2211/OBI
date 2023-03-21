@@ -8,9 +8,11 @@ router.get('/history/list', async (req, res) => {
         var data  = await History.find({}).sort("-createDate");
 
         for(let i=0; i < data.length; i++){
-            console.log(data[i]);
             data[i].text.data = JSON.parse(data[i].text.data);
-            console.log(data[i]);
+
+            data[i].text.prod_name = data[i].text.data.product.name;
+
+            data[i].text.satuan = data[i].text.data.satuan;
         }
         
         return res.status(200).json(data);

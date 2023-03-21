@@ -32,12 +32,11 @@ const Index = () => {
     useEffect(() => {
         loadList();
     }, []);
-    
-console.log("aia", wq1List)
+
     return (
         <MainCard title="History List">
             <Paper sx={{ width: '100%', overflow: 'hidden' }}>
-                {wq1List ? 
+                {wq1List && wq1List.length > 0 ? 
                     <DataTable
                         pagination
                         data={wq1List}
@@ -50,12 +49,12 @@ console.log("aia", wq1List)
                         }, {
                             width:"20%",
                             name: 'Descripsi',
-                            selector: row => (row.text && row.text.data) ? row.text.data.satuan.map((item) => (item.qtyStock) ? (<div>{row.text.type} {row.text.data.product.name} <b>{item.qtyStock}</b> {item.name}</div>) : '') : row.text.data.toString()
+                            selector: row => (row.text && row.text) ? row.text.satuan.map((item) => (item.qtyStock) ? (<div>{row.text.type} { row.text.prod_name } <b>{item.qtyStock}</b> {item.name}</div>) : '') : "kosong"
                         }, {
                             name :'Date',
                             selector: row => row.createDate,
                         }]} 
-                    /> : ""
+                    /> : "Data kosong"
                 }
             </Paper>
         </MainCard>
