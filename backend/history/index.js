@@ -10,13 +10,18 @@ router.get('/history/list', async (req, res) => {
         for(let i=0; i < data.length; i++){
             data[i].text.data = JSON.parse(data[i].text.data);
 
-            data[i].text.prod_name = data[i].text.data.product.name;
+            if(data[i].text.data.product) {
+                data[i].text.prod_name = data[i].text.data.product.name;
+            }
+            else{
+                data[i].text.prod_name = '';
+            }
 
             data[i].text.satuan = data[i].text.data.satuan;
         }
         
         return res.status(200).json(data);
-    }catch(err) {
+    }catch(err) {console.log(err)
         return res.status(500).json({data:err.response});
     }
 });
