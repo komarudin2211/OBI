@@ -41,9 +41,17 @@ router.get('/inventory/:id', async (req, res) => {
 
 router.post('/inventory/sale', async (req,res) => {
     try {
-        var {_id, warehouse, name, sublini, volume, barcode, sku, satuan, expire_date} = req.body;
+        var {_id, warehouse, name, sublini, volume, barcode, type, satuan, expireDate, product} = req.body;
 
-        var data  = await Inventory.findOne({barcode:barcode, warehouse:warehouse._id});
+        if(type && type == 'stockopname'){
+            barcode = product.barcode;
+        };
+
+
+        var arrDate = expireDate.split("-");
+        var newDate = arrDate[2]+"-"+arrDate[1]+"-"+arrDate[0];
+
+        var data  = await Inventory.findOne({barcode:barcode, warehouse:warehouse._id,  expireDate:{$gte: newDate, $lte: newDate}});
 
         if(data) {
             data = data.toObject();
@@ -51,9 +59,15 @@ router.post('/inventory/sale', async (req,res) => {
             for(let i=0; i < data.satuan.length; i++){
                if(data.satuan[i]._id.toString() == satuan[i]._id && satuan[i].qty_sale){
                     satuanHistory.push({qtyStock:satuan[i].qty_sale, name:satuan[i].name});
-
-                    data.satuan[i].qtyStock -= parseInt(satuan[i].qty_sale);
-                    data.satuan[i].jmlStock -= (parseInt(satuan[i].qty_sale) * data.satuan[i].jml);
+                    if(!type){
+                        data.satuan[i].qtyStock -= parseInt(satuan[i].qty_sale);
+                        data.satuan[i].jmlStock -= (parseInt(satuan[i].qty_sale) * data.satuan[i].jml);
+                    }
+                    else{
+                        data.satuan[i].qtyStock += parseInt(satuan[i].qty_sale);
+                        data.satuan[i].jmlStock += (parseInt(satuan[i].qty_sale) * data.satuan[i].jml);
+                    }
+                    
                }
                
             }
@@ -78,7 +92,7 @@ router.post('/inventory/sale', async (req,res) => {
         dataHist.satuan = satuanHistory;
 
         var history = new History();
-        history.text = {type: "Jual Barang ", data: JSON.stringify(dataHist)}
+        history.text = {type: (product) ? "Stok opname" : "Jual Barang ", data: JSON.stringify(dataHist)}
         history.pic = req.signedCookies.fullname
         history.createDate = new Date();
         history.type = 'Inventory'

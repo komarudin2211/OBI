@@ -43,6 +43,13 @@ const dashboard = {
             url: '/history-list',
             breadcrumbs: false,
             children:[]
+        }, {
+            id: 'stokopname',
+            title: 'Stok Opname',
+            type: 'item',
+            url: '/stok-opname',
+            breadcrumbs: false,
+            children:[]
         }]
     }, {
         title: 'Product',
