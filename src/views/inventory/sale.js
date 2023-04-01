@@ -103,6 +103,7 @@ const Index = () => {
             }
 
             await axios.post("/api/inventory/sale", product);
+            alert("Penjualan berhasil")
             location.href="/inventory-list";
         }catch(err){
             alert(err.message);
