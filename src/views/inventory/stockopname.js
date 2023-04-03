@@ -104,9 +104,12 @@ const Index = () => {
             }
             product.type = "stockopname";
 
-            await axios.post("/api/inventory/sale", product);
-            alert("stok opname berhasil")
-            location.href="/inventory-list";
+            if (confirm("Yakin ingin stok opname barang!")) {
+                await axios.post("/api/inventory/sale", product);
+                alert("stok opname berhasil")
+                location.href="/inventory-list";
+            } 
+            
         }catch(err){
             alert(err.message);
         }

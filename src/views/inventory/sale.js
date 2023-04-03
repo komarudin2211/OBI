@@ -102,9 +102,13 @@ const Index = () => {
                 return alert("Minimal qty satuan di isi satu");
             }
 
-            await axios.post("/api/inventory/sale", product);
-            alert("Penjualan berhasil")
-            location.href="/inventory-list";
+            if (confirm("Yakin ingin menjual barang!")) {
+                await axios.post("/api/inventory/sale", product);
+                alert("Penjualan berhasil");
+                location.href="/inventory-list";
+            } 
+            
+           
         }catch(err){
             alert(err.message);
         }
