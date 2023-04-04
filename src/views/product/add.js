@@ -51,8 +51,6 @@ const Index = () => {
 		var arr = e.target.name.split("_");
         var dataSatuan = [];
 
-        console.log(arr[0], arr[1], value);
-
         if(satuan[arr[1]]) {
             satuan[arr[1]][arr[0]] = value
         }
@@ -80,14 +78,25 @@ const Index = () => {
     const handleSubmit = async (e) => {
         try {
             var arrSatuan = [];
+            var error = false;
             for(var key in satuan){
+                console.log("apa ini ",satuan[key])
+                if(satuan[key].jml < 0 || !satuan[key].jml){
+                    error = true;
+                    alert(satuan[key].name + " tidak boleh negative")
+                    break;
+                    return;
+                }
                 arrSatuan.push(satuan[key]);
             }
 
             product['satuan'] = arrSatuan;
 
-            await axios.post("/api/product/add", product);
-            location.href="/product-list";
+            if(error == false){
+                await axios.post("/api/product/add", product);
+                location.href="/product-list";
+            }
+            
         }catch(err){
             alert(err.message);
         }
