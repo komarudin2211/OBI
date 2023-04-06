@@ -29,6 +29,16 @@ router.post('/user/add', async (req, res) => {
     }
 });
 
+router.get("/user/logout", async(req,res) => {
+    try {
+        res.clearCookie('fullname', { path: '/' });
+        return res.status(200).json({message:'success'});
+    }catch(err) {
+        return res.status(200).json({...err.response});
+    }
+
+});
+
 router.post('/user/login', async (req, res) => {
     try{
         var {email, password} = req.body
@@ -59,6 +69,7 @@ router.post('/user/login', async (req, res) => {
 
 
         res.cookie('fullname', dataUser.fullname, options) 
+
         return res.status(200).json({})
     }catch(err) {
         return res.status(500).json({message:err.message});
