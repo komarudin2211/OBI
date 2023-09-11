@@ -1,5 +1,7 @@
 import { useState } from 'react';
 import { useSelector } from 'react-redux';
+import axios from 'axios';
+import { sha256 } from 'js-sha256';
 
 // material-ui
 import { useTheme } from '@mui/material/styles';
@@ -57,9 +59,12 @@ const FirebaseLogin = ({ ...others }) => {
         event.preventDefault();
     };
 
-    const onSubmit = () => {
-        localStorage.setItem('login', true);
-        window.location.href = '/';
+    const onSubmit = async () => {
+        // localStorage.setItem('login', true);
+        console.log("data ",)
+        await axios.post("/api/user/login", {});
+        // location.href="/user-list";
+       window.location.href = '/';
     };
 
     return (
@@ -125,8 +130,8 @@ const FirebaseLogin = ({ ...others }) => {
 
             <Formik
                 initialValues={{
-                    email: 'info@codedthemes.com',
-                    password: '123456',
+                    email: '',
+                    password: '',
                     submit: null
                 }}
                 validationSchema={Yup.object().shape({
@@ -135,15 +140,17 @@ const FirebaseLogin = ({ ...others }) => {
                 })}
                 onSubmit={async (values, { setErrors, setStatus, setSubmitting }) => {
                     try {
+                        values.password = sha256(values.password);
+                        await axios.post("/api/user/login", values);
+                        location.href="/";
                         if (scriptedRef.current) {
                             setStatus({ success: true });
                             setSubmitting(false);
                         }
                     } catch (err) {
-                        console.error(err);
                         if (scriptedRef.current) {
                             setStatus({ success: false });
-                            setErrors({ submit: err.message });
+                            setErrors({ submit: err.response.data.message });
                             setSubmitting(false);
                         }
                     }

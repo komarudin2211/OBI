@@ -2,6 +2,7 @@ import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Navigate, Outlet } from 'react-router-dom';
 
+
 // material-ui
 import { styled, useTheme } from '@mui/material/styles';
 import { AppBar, Box, CssBaseline, Toolbar, useMediaQuery } from '@mui/material';
@@ -13,7 +14,7 @@ import Sidebar from './Sidebar';
 import Customization from '../Customization';
 import navigation from 'menu-items';
 import { drawerWidth } from 'store/constant';
-import { SET_MENU } from 'store/actions';
+import { SET_MENU } from 'store/action/actions';
 
 // assets
 import { IconChevronRight } from '@tabler/icons';
@@ -80,11 +81,11 @@ const MainLayout = () => {
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [matchDownMd]);
 
-    let user = localStorage.getItem('login');
+    // let user = localStorage.getItem('login');
 
-    if (!user) {
-        return <Navigate to="/login" />;
-    }
+    // if (!user) {
+    //     return <Navigate to="/login" />;
+    // }
 
     return (
         <Box sx={{ display: 'flex' }}>

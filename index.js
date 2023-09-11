@@ -1,34 +1,56 @@
 const express = require('express');
-const mssql = require('mssql');
 const app = express();
 const path = require('path');
+const cookieParser = require('cookie-parser');
+
+/*************************** 
+********** call db *********
+****************************/
+require("./config/mongo_db");
+/*************************** 
+********** call db *********
+****************************/
+
 const port = process.env.PORT || 3500;
 
-let db = require("./config/db");
+const invetory = require("./backend/inventory");
 
-const connect = async () => {
+const user = require("./backend/user");
+const roles = require("./backend/roles");
+const product = require("./backend/product");
+const warehouse = require("./backend/warehouse");
+const history = require("./backend/history");
 
-try{
-    let sql  = await db();
-    const result = await sql.query`select * from dbo.USR50;`;
-    console.log("Jumlah data : ", result.recordset.length);
-    
-    }catch(err) {
-        console.log("err ", err);
-    }
-}
-//connect();
+var bodyParser = require('body-parser');
+const { func } = require('prop-types');
+
+app.use(bodyParser.json());
+app.use(cookieParser("asiap"));
+
+app.use(
+    "/api",
+    product,
+    roles,
+    user,
+    warehouse,
+    invetory,
+    history
+);
 
 app.use(express.static(path.resolve(__dirname, './build')));
 
 app.get('*', function(req, res) {
-    res.sendFile(path.join(__dirname, 'build', 'index.html'));
+    if(req.originalUrl != '/api/user/login' && !req.signedCookies.fullname && req.originalUrl != '/login' &&  req.originalUrl != '/signup'){
+           return res.redirect("/login");
+    }else {
+        res.sendFile(path.join(__dirname, 'build', 'index.html'));
+    }
 });
 
 app.listen(port);
 
 console.log("***************************************");
-console.log("*** sistem running on port : ", port, " ***");
+console.log("*** system running on port : ", port, " ***");
 console.log("***************************************");
 
 module.exports = app

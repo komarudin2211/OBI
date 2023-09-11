@@ -1,58 +1,61 @@
-var sql = require("mssql");
+
 require('dotenv').config();
 
-let data =[];
-let init = async () => {
-    var config = {
-        user: process.env.DB_USERNAME,
-        password: process.env.DB_PASSWORD,
-        server: process.env.DB_HOST,
-        port:parseInt(process.env.PORT),
-        database:process.env.DB_NAME,
-        trustServerCertificate: true,
-        options:{
-            cryptoCredentialsDetails:{
-                minVersion: 'TLSv1'
+const Sequelize = require('sequelize');
+let db = {};
+
+if(process.env.OS_NODE == 'WINDOWS'){
+    db = new Sequelize({
+        dialect: 'mssql',
+        dialectModulePath: 'msnodesqlv8/lib/sequelize',
+        dialectOptions: {
+            user: '',
+            password: '',
+            database: 'OBI_LIVE',
+            options: {
+                driver: '',
+                connectionString:process.env.STRING_CONNECT,
+                trustedConnection: true,
+                instanceName: ''
             }
+        },
+        pool: {
+            min: 0,
+            max: 5,
+            idle: 10000
         }
-    };
+    });
+ }else{
 
+    db = new Sequelize(process.env.DB_NAME, process.env.DB_USERNAME, process.env.DB_PASSWORD, {
+        dialect: 'mssql',
+        host:  process.env.DB_HOST,
+        port: 1433,  // disable logging; default: console.log
+        dialectOptions: {
+            requestTimeout: 30000 // timeout = 30 seconds
+        }, pool: {
+            min: 0,
+            max: 5,
+            idle: 10000
+        }
+    });
+}
+
+async function connect() {
     try {
-       let connect = await sql.connect(config);
-     //  const result = await sql.query`select * from dbo.USR1`;
-    //    data = result.recordset;
-    //    console.log("Jumlah data : ", data.length)
-        console.log("========================");
-        console.log("koneksi database suskes");
-        console.log("========================");
-
-        return connect;
+       
+        await db.authenticate();
+        console.log("=========================");
+        console.log("koneksi database berhasil");
+        console.log("=========================");
     }
-    catch (err) {
-        console.log("========================");
-        console.log("koneksi database gagal");
-        console.log(config);
-        console.log("========================");
-
-        console.log("**************************");
-        console.log("error response : ", err.message)
-        console.log("**************************");
-
+    catch(err){
+        console.log("xxxxxxxxxxxxxxxxxxxxxxxxxx");
+        console.log("koneksi database gagal : ",err.message);
+        console.log("xxxxxxxxxxxxxxxxxxxxxxxxxx");
     }
 }
 
-let conn = Promise.all([init()]).then((res) => res
+connect();
 
-    // let getUser = async () => {
-    //     for(let i=0; i < data.length; i++) {
-    //        let item = await new Promise(resolve => setTimeout(() => resolve(data[i]), 1000));
-    //        console.log("==============");
-    //        console.log(item);
-    //        console.log("======="+i+"======="+item.ClientName);
-    //     }
-    // };
-
-    // getUser();
-).catch((err) => err);
-
-module.exports = init;
+module.exports = db
